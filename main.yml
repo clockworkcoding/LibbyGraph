@@ -1,5 +1,0 @@
-uses: kanadgupta/glitch-sync@main
-with:
-  auth-token: '${{ secrets.GLITCH_AUTH_TOKEN }}'
-  project-id: '${{ secrets.GLITCH_PROJECT_ID }}'
-  path: 'dist' # optional
