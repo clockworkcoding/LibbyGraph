@@ -8,7 +8,7 @@
             "type": "chrome",
             "request": "launch",
             "name": "Launch Chrome against localhost",
-            "url": "http://localhost:8080",
+            "url": "file:///C:/Users/yodad/source/repos/LibbyGraph/LibbyGraph/index.html",
             "webRoot": "${workspaceFolder}"
         }
     ]
