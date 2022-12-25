@@ -19,13 +19,19 @@ function preview_csv(e) {
             columns:['cover', 'title', 'author', 'publisher', 'isbn', 'timestamp', 'activity', 'details', 'library'],
         complete: function(result) {
             if (result.data && result.data.length > 0) {
-                //result.data.group(r => r.isbn)
+                var grTitles = groupBy(result.data, 'isbn');
+                var sgTitles = grTitles.map(transformGrData);
                 initDataTable(result.data)
             }
         }
     });
 }
 
+function transformGrData(title) {
+    return {
+        title : title[0].title
+    }
+}
 function htmlTableGenerator(content) {
     let csv_preview = document.getElementById('csv-preview');
 
@@ -70,7 +76,7 @@ function htmlTableGenerator(content) {
 function initDataTable(content) {
     $('#example').dataTable({
         data: content,
-        columns: [{ title: 'cover' }, { title: 'title' }, { title: 'author' }, { title: 'publisher' }, { title: 'isbn' }, { title: 'timestamp' }, { title: 'activity' }, { title: 'details' }, { title: 'library' }],
+            columns: [{ data: 'cover' }, { data: 'title' }, { data: 'author' }, { data: 'publisher' }, { data: 'isbn' }, { data: 'timestamp' }, { data: 'activity' }, { data: 'details' }, { data: 'library' }],
         scrollX: true,
         scrollY: (window.innerHeight / 2) + "px",
         dom: 'Bfrtip',
