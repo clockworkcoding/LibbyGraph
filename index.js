@@ -4,6 +4,10 @@ window.onload = function() {
     );
     
     $('#reading').hide();
+    
+    $('.include').change(function() {
+        alert('oks');
+    });
 }
 
 function preview_csv(e) {
@@ -33,7 +37,7 @@ function transformGrData(grTitles) {
     let sgTitles = [];
     grTitles.forEach(function(t, key){
         t = t.sort((a,b)=> Date.parse(a.timestamp) - Date.parse(b.timestamp));
-        let lastActivity = new Date(t[0].timestamp).toISOString().split('T')[0]
+        let lastActivity = formatDate(t[0].timestamp);
         //let dateAdded = new Date(t[t.length - 1].timestamp).toISOString().split('T')[0]
 
         let borrowed = t.filter(a => a.activity == "Borrowed").sort((a,b)=> Date.parse(b.timestamp) - Date.parse(a.timestamp))[0];
@@ -45,7 +49,7 @@ function transformGrData(grTitles) {
         if (returned != null){
             shelf = "read";
             readCount =1;
-            dateRead = new Date(returned.timestamp).toISOString().split('T')[0];
+            dateRead = formatDate(returned.timestamp);
         }
         else if (borrowed != null){
             shelf = "currently-reading";
@@ -80,7 +84,8 @@ function transformGrData(grTitles) {
             spoiler:null,
             privateNotes:null,
             readCount: readCount,
-            ownedCopies:0
+            ownedCopies:0,
+            include: true
         });
     })
     return sgTitles;
@@ -96,7 +101,11 @@ function initDataTable(content) {
             columns: [
                 {
                     data: 'lastActivity',
-                    type: 'date'
+                    type: 'date',
+                    render: function(data, type, row, meta)
+                    {
+                        return '<input id="lastActivity-'+row.isbn13+'" class="datepicker" type="date" value="'+data+'" readonly />';
+                    }
                 },
                 {
                     data: 'cover',
@@ -127,12 +136,13 @@ function initDataTable(content) {
                     visible: false
                 },
                 {
-                    data: 'isbn13'
+                    data: 'isbn13',
+                    visible: false
                 },
                 {
                     data: 'myRating',
                     render: function(data, type, row, meta){
-                        return '<input type="number" class="rating" data-isbn="'+row.isbn+'" id="rating-'+ row.isbn13 +'" "name="rating" min="0" max="5"></input>';
+                        return '<input type="number" class="rating" data-isbn="'+row.isbn13+'" id="rating-'+ row.isbn13 +'" "name="rating"  value=' + row.myRating + ' min="0" max="5"></input>';
                     }
                 },
                 {
@@ -164,12 +174,16 @@ function initDataTable(content) {
                     type: 'date',
                     render: function(data, type, row, meta)
                     {
-                        return '<input id="dateAdded-'+row.isbn13+'" class="datepicker" type="date" value="'+data+'" width="270" />';
+                        return '<input id="dateRead-'+row.isbn13+'" class="datepicker" type="date" value="'+data+'" />';
                     }
                 },
                 {
                     data: 'dateAdded',
-                    type: 'date'
+                    type: 'date',
+                    render: function(data, type, row, meta)
+                    {
+                        return '<input id="dateAdded-'+row.isbn13+'" class="datepicker" type="date" value="'+data+'" />';
+                    }
                 },
                 {
                     data: 'bookshelves',
@@ -182,11 +196,11 @@ function initDataTable(content) {
                 {
                     data: 'exclusiveShelf',
                     render: function(data, type,row, meta) {
-                        return '<select name="shelf" class="shelf  form-select form-select-lg" data-isbn="'+row.isbn+'" id="shelf-'+row.isbn13+'">' +
+                        return '<select name="shelf" class="shelf" data-isbn="'+row.isbn13+'" id="shelf-'+row.isbn13+'">' +
                         '  <option value="to-read" ' + (data == 'to-read' ? 'selected' : ' ') + '>to-read</option>' +
                         '  <option value="read" ' + (data == 'read' ? 'selected' : ' ') + '>read</option>' +
                         '  <option value="currently-reading" ' + (data == 'currently-reading' ? 'selected' : ' ') + '>currently-reading</option>' +
-                        '  <option value="did-not-finish">did-not-finish</option>' +
+                        '  <option value="did-not-finish"' + (data == 'did-not-finish' ? 'selected' : ' ') + '>did-not-finish</option>' +
                         '</select>';
                     }
                 },
@@ -205,32 +219,134 @@ function initDataTable(content) {
                 {
                     data: 'readCount',
                     render: function(data, type, row, meta){
-                        return '<input type="number" class="readCount" data-isbn="'+row.isbn+'" id="readCount-'+ row.isbn13 +'" value=' + row.readCount + ' "name="quantity" min="0"></input>';
+                        return '<input type="number" class="readCount" data-isbn="'+row.isbn13+'" id="readCount-'+ row.isbn13 +'" value=' + row.readCount + ' "name="quantity" min="0"></input>';
                     }
                 },
                 {
                     data: 'ownedCopies',
                     visible: false
                 },
+                {
+                    data: 'include',
+                    render: function(data, type, row, meta){
+                        return '<input type="checkbox" class="include" data-isbn="'+row.isbn13+'" value="include" '+ (data ? 'checked' : '') +'>';
+                    }
+                },
+                {
+                    data: 'include',
+                    render: function(data, type, row, meta){
+                        return '<input type="button" class="exclude" data-isbn="'+row.isbn13+'" value="Exclude all books below this">';
+                    }
+                }
             ],
         responsive:true,
         order:[[0,'desc']],
-        scrollX: true,
         scrollY: (window.innerHeight / 2) + "px",
         dom: 'Bfrtip',
         buttons: [
             {
                 extend: 'csv',
-                text: 'Download CSV',
+                text: 'Download CSV for StoryGraph import',
+                filename: 'libbygraph',
                 exportOptions: {
-                    columns:[2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25]
+                    columns:[2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25],
+                    rows: function ( idx, data, node ) {            
+                        return data.include;
+                   },
+                   format:{
+                       body: function(html, row, col, node){
+                            let table = $('#reading').DataTable(); 
+                            let data = table.cell(node._DT_CellIndex.row, node._DT_CellIndex.column).data();
+                            return data == null ? '' : data;
+                       }
+                   }
                 }
             }
-        ]
-    })
-    $('.datepicker').datepicker({
-        uiLibrary: 'bootstrap'
+        ],
+        initComplete: function(settings, json){
+            var table = $('#reading').DataTable();
+ 
+            $('#reading tbody').on('click', 'img', function () {
+                
+                let data = table.row( this.parentNode ).data();
+                console.log( data.include );
+            });
+            $('#reading tbody').on('change', '.shelf', function () {
+                let row = table.row(this.parentNode);
+                let data = row.data();
+                let originalShelf = data.exclusiveShelf;
+                data.exclusiveShelf = $(this).val();
+                if(originalShelf == 'read' && data.exclusiveShelf !== 'read'){
+                    data.dateRead = null;
+                    data.readCount = 0;
+                    row.invalidate();
+                }
+                row.data(data);
+                table.draw(false);
+            });
+            $('#reading tbody').on('change', '.rating', function () {
+                let row = table.row(this.parentNode);
+                let data = row.data();
+                data.myRating = $(this).val();
+                if(data.myRating > 5){
+                    data.myRating = 5;
+                    row.invalidate();
+                } else if(data.myRating < 0){
+                    data.myRating = 0;
+                    row.invalidate();
+                }
+                row.data(data);
+                table.draw(false);
+            });
+            $('#reading tbody').on('change', '.dateRead', function () {
+                let row = table.row(this.parentNode);
+                let data = formatDate(row.data());
+                data.dateRead = $(this).val();
+                row.data(data);
+                table.draw(false);
+            });
+            $('#reading tbody').on('change', '.dateAdded', function () {
+                let row = table.row(this.parentNode);
+                let data = formatDate(row.data());
+                data.dateAdded = $(this).val();
+                row.data(data);
+                table.draw(false);
+            });
+            $('#reading tbody').on('change', '.readCount', function () {
+                let row = table.row(this.parentNode);
+                let data = row.data();
+                data.readCount = $(this).val();
+                if(data.readCount < 0){
+                    data.readCount = 0;
+                    row.invalidate();
+                }
+                row.data(data);
+                table.draw(false);
+            });
+            $('#reading tbody').on('change', '.include', function () {
+                let data = table.row(this.parentNode).data();
+                data.include = $(this).is(':checked');
+                table.row( this ).data(data);
+                console.log( table.row( this ).data() );
+            });
+            $('#reading tbody').on('click', '.exclude', function () {
+                let rows = table.rows( { order: 'applied' } )[0];
+                let rowIndex = rows.indexOf(table.row( this ).index());
+                for(let i = rowIndex+1; i< rows.length; i++ ){
+                    let row =table.row(rows[i]);
+                    let data = row.data();
+                    data.include = false;
+                    row.data(data);
+                    row.invalidate();
+                }
+                table.draw(false);
+            });
+        }
     });
+}
+
+function formatDate(date){
+    return new Date(date).toISOString().split('T')[0];
 }
 
 function groupBy(items, key) {
