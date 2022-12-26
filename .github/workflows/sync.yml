@@ -4,7 +4,7 @@ name: Glitch Sync
 on:
   push:
     branches:
-      - glitch
+      - main
 
 jobs:
   sync:

@@ -2,6 +2,8 @@ window.onload = function() {
     document.getElementById('csv-file').addEventListener(
         'change', preview_csv, false
     );
+    
+    $('#reading').hide();
 }
 
 function preview_csv(e) {
@@ -88,7 +90,8 @@ function isValidDate(d) {
 }
 
 function initDataTable(content) {
-    $('#example').dataTable({
+    $('#reading').show();
+    $('#reading').dataTable({
         data: content,
             columns: [
                 {
@@ -127,7 +130,10 @@ function initDataTable(content) {
                     data: 'isbn13'
                 },
                 {
-                    data: 'myRating'
+                    data: 'myRating',
+                    render: function(data, type, row, meta){
+                        return '<input type="number" class="rating" data-isbn="'+row.isbn+'" id="rating-'+ row.isbn13 +'" "name="rating" min="0" max="5"></input>';
+                    }
                 },
                 {
                     data: 'averageRating',
@@ -155,7 +161,11 @@ function initDataTable(content) {
                 },
                 {
                     data: 'dateRead',
-                    type: 'date'
+                    type: 'date',
+                    render: function(data, type, row, meta)
+                    {
+                        return '<input id="dateAdded-'+row.isbn13+'" class="datepicker" type="date" value="'+data+'" width="270" />';
+                    }
                 },
                 {
                     data: 'dateAdded',
@@ -170,10 +180,19 @@ function initDataTable(content) {
                     visible: false
                 },
                 {
-                    data: 'exclusiveShelf'
+                    data: 'exclusiveShelf',
+                    render: function(data, type,row, meta) {
+                        return '<select name="shelf" class="shelf  form-select form-select-lg" data-isbn="'+row.isbn+'" id="shelf-'+row.isbn13+'">' +
+                        '  <option value="to-read" ' + (data == 'to-read' ? 'selected' : ' ') + '>to-read</option>' +
+                        '  <option value="read" ' + (data == 'read' ? 'selected' : ' ') + '>read</option>' +
+                        '  <option value="currently-reading" ' + (data == 'currently-reading' ? 'selected' : ' ') + '>currently-reading</option>' +
+                        '  <option value="did-not-finish">did-not-finish</option>' +
+                        '</select>';
+                    }
                 },
                 {
-                    data: 'myReview'
+                    data: 'myReview',
+                    visible: false
                 },
                 {
                     data: 'spoiler',
@@ -184,13 +203,17 @@ function initDataTable(content) {
                     visible: false
                 },
                 {
-                    data: 'readCount'
+                    data: 'readCount',
+                    render: function(data, type, row, meta){
+                        return '<input type="number" class="readCount" data-isbn="'+row.isbn+'" id="readCount-'+ row.isbn13 +'" value=' + row.readCount + ' "name="quantity" min="0"></input>';
+                    }
                 },
                 {
                     data: 'ownedCopies',
                     visible: false
                 },
             ],
+        responsive:true,
         order:[[0,'desc']],
         scrollX: true,
         scrollY: (window.innerHeight / 2) + "px",
@@ -205,6 +228,9 @@ function initDataTable(content) {
             }
         ]
     })
+    $('.datepicker').datepicker({
+        uiLibrary: 'bootstrap'
+    });
 }
 
 function groupBy(items, key) {
