@@ -290,7 +290,7 @@ function initDataTable(content) {
                 },
             },
         ],
-        responsive: true,
+        responsive: false,
         order: [[0, "desc"]],
         scrollY: window.innerHeight / 2 + "px",
         dom: "Bfrtip",
