@@ -419,7 +419,7 @@ function initDataTable(content) {
                 data.include = $(this).is(":checked");
                 row.data(data);
                 row.invalidate();
-                table.draw();
+                table.draw(false);
             });
             $("#reading tbody").on("click", ".exclude", function () {
                 let rows = table.rows({ order: "applied" })[0];
