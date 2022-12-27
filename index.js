@@ -113,24 +113,28 @@ function initDataTable(content) {
     $("#reading").show();
     $("#reading").dataTable({
         data: content,
+        order: [[26, "desc"]],
+        scrollY: window.innerHeight / 2 + "px",
+        scrollX: true,    
+        fixedColumns: true,
+        dom: "Bfrtip",
         columns: [
-            {
-                data: "lastActivity",
-                type: "date",
-                render: function (data, type, row, meta) {
-                    return (
-                        '<input id="lastActivity-' +
-                        row.isbn13 +
-                        '" class="datepicker" type="date" value="' +
-                        data +
-                        '" readonly />'
-                    );
-                },
-            },
             {
                 data: "cover",
                 render: function (data) {
-                    return '<img src="' + data + '"  height="128">';
+                    return '<img src="' + data + '"  height="75">';
+                },
+            },
+            {
+                data: "include",
+                render: function (data, type, row, meta) {
+                    return (
+                        '<input type="checkbox" class="include" data-isbn="' +
+                        row.isbn13 +
+                        '" value="include" ' +
+                        (data ? "checked" : "") +
+                        ">"
+                    );
                 },
             },
             {
@@ -268,14 +272,15 @@ function initDataTable(content) {
                 visible: false,
             },
             {
-                data: "include",
+                data: "lastActivity",
+                type: "date",
                 render: function (data, type, row, meta) {
                     return (
-                        '<input type="checkbox" class="include" data-isbn="' +
+                        '<input id="lastActivity-' +
                         row.isbn13 +
-                        '" value="include" ' +
-                        (data ? "checked" : "") +
-                        ">"
+                        '" class="datepicker" type="date" value="' +
+                        data +
+                        '" readonly disabled />'
                     );
                 },
             },
@@ -290,12 +295,6 @@ function initDataTable(content) {
                 },
             },
         ],
-        responsive: false,
-        order: [[0, "desc"]],
-        scrollY: window.innerHeight / 2 + "px",
-        scrollX: true,
-        fixedHeaders:false,
-        dom: "Bfrtip",
         buttons: [
             {
                 extend: "csv",
