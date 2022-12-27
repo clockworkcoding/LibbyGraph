@@ -384,14 +384,13 @@ function initDataTable(content) {
                 let data = row.data();
                 data.myRating = $(this).val();
                 if (data.myRating > 5) {
+                    $(this).val(5);
                     data.myRating = 5;
-                    row.invalidate();
                 } else if (data.myRating < 0) {
+                    $(this).val(0);
                     data.myRating = 0;
-                    row.invalidate();
                 }
                 row.data(data);
-                table.draw(false);
             });
             $("#reading tbody").on("change", ".dateRead", function () {
                 let row = table.row(this.parentNode);
@@ -413,10 +412,9 @@ function initDataTable(content) {
                 data.readCount = $(this).val();
                 if (data.readCount < 0) {
                     data.readCount = 0;
-                    row.invalidate();
+                    $(this).val(0);
                 }
                 row.data(data);
-                table.draw(false);
             });
             $("#reading tbody").on("change", ".include", function () {
                 let row = table.row(this.parentNode);
