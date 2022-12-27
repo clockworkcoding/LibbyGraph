@@ -293,6 +293,8 @@ function initDataTable(content) {
         responsive: false,
         order: [[0, "desc"]],
         scrollY: window.innerHeight / 2 + "px",
+        scrollX: true,
+        fixedHeaders:false,
         dom: "Bfrtip",
         buttons: [
             {
@@ -342,16 +344,16 @@ function initDataTable(content) {
             var starRatingControl = new StarRating('.rating',{
                 maxStars: 5,
                 clearable: true,
-                tooltips: false
+                tooltip: false
             });
         },
         initComplete: function (settings, json) {
             let table = $("#reading").DataTable();
 
-            var starRatingControl = new StarRating('.star-rating',{
+            var starRatingControl = new StarRating('.rating',{
                 maxStars: 5,
                 clearable: true,
-                tooltips: false
+                tooltip: false
             });
 
             $("#reading tbody").on("change", ".shelf", function () {
@@ -374,13 +376,20 @@ function initDataTable(content) {
                 row.data(data);
                 table.draw(false);
             });
-            $("#reading tbody").on("click", ".gl-star-rating--stars", function () {
+            var starRatingFunction = function () {
                 let row = table.row($(this).parent().closest('tr.even,tr.odd'));
                 let data = row.data();
+                let selectedRating = $(this).data('rating');
+                if(data.myRating == selectedRating){
+                    return;
+                }
                 data.myRating = $(this).data('rating');
                 row.data(data);
                 table.draw(false);
-            });
+            };
+            $("#reading tbody").on("click", ".gl-star-rating--stars", starRatingFunction);
+            $("#reading tbody").on("touchend", ".gl-star-rating--stars", starRatingFunction);
+            $("#reading tbody").on("swipe", ".gl-star-rating--stars", starRatingFunction);
             $("#reading tbody").on("change", ".dateRead", function () {
                 let row = table.row(this.parentNode);
                 let data = formatDate(row.data());
@@ -415,7 +424,7 @@ function initDataTable(content) {
             });
             $("#reading tbody").on("click", ".exclude", function () {
                 let rows = table.rows({ order: "applied" })[0];
-                let rowIndex = rows.indexOf(table.row(this).index());
+                let rowIndex = rows.indexOf(table.row($(this).parent().closest('tr.even,tr.odd')).index());
                 for (let i = rowIndex + 1; i < rows.length; i++) {
                     let row = table.row(rows[i]);
                     let data = row.data();
