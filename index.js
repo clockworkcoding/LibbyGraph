@@ -312,7 +312,7 @@ function initDataTable(content) {
         rowCallback: function (row, data, displayNum, displayIndex, dataIndex) {
             if (!data.include) {
                 $(row).addClass('excluded');
-            } else{
+            } else {
                 $(row).removeClass('excluded');
             }
         },
@@ -344,9 +344,23 @@ function initDataTable(content) {
                     },
                 },
             },
+            {
+                text: 'Include all books',
+                action: function (e, dt, node, config) {
+                    let table = $("#reading").DataTable();
+                    table.rows().every(function (rowIdx, tableLoop, rowLoop) {
+                        var data = this.data();
+                        data.include = true;
+                        this.data(data);
+                        this.invalidate();
+                    });
+
+                    table.draw(false);
+                }
+            }
         ],
         initComplete: function (settings, json) {
-            var table = $("#reading").DataTable();
+            let table = $("#reading").DataTable();
 
             $("#reading tbody").on("click", "img", function () {
                 let data = table.row(this.parentNode).data();
