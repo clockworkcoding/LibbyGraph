@@ -163,13 +163,14 @@ function initDataTable(content) {
                 data: "myRating",
                 render: function (data, type, row, meta) {
                     return (
-                        '<input type="number" class="rating" data-isbn="' +
-                        row.isbn13 +
-                        '" id="rating-' +
-                        row.isbn13 +
-                        '" "name="rating"  value=' +
-                        row.myRating +
-                        ' min="0" max="5"></input>'
+                        '<select name="rating " class="rating star-rating" id="rating-' + row.isbn13 +'">' +
+                        '  <option value="" ' + (data == '' || data == null ? 'selected' : ' ') + ' >Select a rating</option>' +
+                        '  <option value=1 ' + (data == 1 ? 'selected' : ' ') + '>1</option>' +
+                        '  <option value=2 ' + (data == 2 ? 'selected' : ' ') + '>2</option>' +
+                        '  <option value=3 ' + (data == 3 ? 'selected' : ' ') + '>3</option>' +
+                        '  <option value=4 ' + (data == 4 ? 'selected' : ' ') + '>4</option>' +
+                        '  <option value=5 ' + (data == 5 ? 'selected' : ' ') + '>5</option>' +
+                        '</select>'
                     );
                 },
             },
@@ -202,11 +203,7 @@ function initDataTable(content) {
                 type: "date",
                 render: function (data, type, row, meta) {
                     return (
-                        '<input id="dateRead-' +
-                        row.isbn13 +
-                        '" class="datepicker" type="date" value="' +
-                        data +
-                        '" />'
+                        '<input id="dateRead-' + row.isbn13 + '" class="datepicker" type="date" value="' + data + '" />'
                     );
                 },
             },
@@ -215,11 +212,7 @@ function initDataTable(content) {
                 type: "date",
                 render: function (data, type, row, meta) {
                     return (
-                        '<input id="dateAdded-' +
-                        row.isbn13 +
-                        '" class="datepicker" type="date" value="' +
-                        data +
-                        '" />'
+                        '<input id="dateAdded-' + row.isbn13 + '" class="datepicker" type="date" value="' + data + '" />'
                     );
                 },
             },
@@ -235,23 +228,11 @@ function initDataTable(content) {
                 data: "exclusiveShelf",
                 render: function (data, type, row, meta) {
                     return (
-                        '<select name="shelf" class="shelf" data-isbn="' +
-                        row.isbn13 +
-                        '" id="shelf-' +
-                        row.isbn13 +
-                        '">' +
-                        '  <option value="to-read" ' +
-                        (data == "to-read" ? "selected" : " ") +
-                        ">to-read</option>" +
-                        '  <option value="read" ' +
-                        (data == "read" ? "selected" : " ") +
-                        ">read</option>" +
-                        '  <option value="currently-reading" ' +
-                        (data == "currently-reading" ? "selected" : " ") +
-                        ">currently-reading</option>" +
-                        '  <option value="did-not-finish"' +
-                        (data == "did-not-finish" ? "selected" : " ") +
-                        ">did-not-finish</option>" +
+                        '<select name="shelf" class="shelf" id="shelf-' + row.isbn13 +'">' +
+                        '  <option value="to-read" ' + (data == "to-read" ? "selected" : " ") + ">to-read</option>" +
+                        '  <option value="read" ' + (data == "read" ? "selected" : " ") + ">read</option>" +
+                        '  <option value="currently-reading" ' + (data == "currently-reading" ? "selected" : " ") + ">currently-reading</option>" +
+                        '  <option value="did-not-finish"' + (data == "did-not-finish" ? "selected" : " ") + ">did-not-finish</option>" +
                         "</select>"
                     );
                 },
@@ -278,7 +259,7 @@ function initDataTable(content) {
                         row.isbn13 +
                         '" value=' +
                         row.readCount +
-                        ' "name="quantity" min="0"></input>'
+                        ' "name="quantity" min=0></input>'
                     );
                 },
             },
@@ -309,13 +290,6 @@ function initDataTable(content) {
                 },
             },
         ],
-        rowCallback: function (row, data, displayNum, displayIndex, dataIndex) {
-            if (!data.include) {
-                $(row).addClass('excluded');
-            } else {
-                $(row).removeClass('excluded');
-            }
-        },
         responsive: true,
         order: [[0, "desc"]],
         scrollY: window.innerHeight / 2 + "px",
@@ -359,13 +333,27 @@ function initDataTable(content) {
                 }
             }
         ],
+        rowCallback: function (row, data, displayNum, displayIndex, dataIndex) {
+            if (!data.include) {
+                $(row).addClass('excluded');
+            } else {
+                $(row).removeClass('excluded');
+            }
+            var starRatingControl = new StarRating('.rating',{
+                maxStars: 5,
+                clearable: true,
+                tooltips: false
+            });
+        },
         initComplete: function (settings, json) {
             let table = $("#reading").DataTable();
 
-            $("#reading tbody").on("click", "img", function () {
-                let data = table.row(this.parentNode).data();
-                console.log(data.include);
+            var starRatingControl = new StarRating('.star-rating',{
+                maxStars: 5,
+                clearable: true,
+                tooltips: false
             });
+
             $("#reading tbody").on("change", ".shelf", function () {
                 let row = table.row(this.parentNode);
                 let data = row.data();
@@ -383,14 +371,15 @@ function initDataTable(content) {
                 let row = table.row(this.parentNode);
                 let data = row.data();
                 data.myRating = $(this).val();
-                if (data.myRating > 5) {
-                    $(this).val(5);
-                    data.myRating = 5;
-                } else if (data.myRating < 0) {
-                    $(this).val(0);
-                    data.myRating = 0;
-                }
                 row.data(data);
+                table.draw(false);
+            });
+            $("#reading tbody").on("click", ".gl-star-rating--stars", function () {
+                let row = table.row($(this).parent().closest('tr.even,tr.odd'));
+                let data = row.data();
+                data.myRating = $(this).data('rating');
+                row.data(data);
+                table.draw(false);
             });
             $("#reading tbody").on("change", ".dateRead", function () {
                 let row = table.row(this.parentNode);

@@ -4,58 +4,37 @@
 <!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
 <!--[if gt IE 8]>      <html class="no-js"> <!--<![endif]-->
 <html lang="en" data-bs-theme="dark">
-  <head>
+
+<head>
     <meta charset="utf-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
 
     <title>LibbyGraph - Bring your exported Libby activity to StoryGraph</title>
 
-    <meta
-      name="description"
-      content="convert the Libby activity csv to a format that StoryGraph can accept"
-    />
+    <meta name="description" content="convert the Libby activity csv to a format that StoryGraph can accept" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <link
-      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css"
-      rel="stylesheet"
-      integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD"
-      crossorigin="anonymous"
-    />
-
-    <link
-      rel="stylesheet"
-      type="text/css"
-      href="https://cdn.datatables.net/v/bs5/jq-3.6.0/dt-1.13.1/b-2.3.3/b-html5-2.3.3/r-2.4.0/sc-2.0.7/datatables.min.css"
-    />
-
-    <script
-      type="text/javascript"
-      src="https://cdn.datatables.net/v/bs5/jq-3.6.0/dt-1.13.1/b-2.3.3/b-html5-2.3.3/r-2.4.0/sc-2.0.7/datatables.min.js"
-    ></script>
-
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous" />
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/bs5/jq-3.6.0/dt-1.13.1/b-2.3.3/b-html5-2.3.3/r-2.4.0/sc-2.0.7/datatables.min.css" />
+    <link rel="stylesheet" type="text/css" href="js\star-rating.js-main\dist\star-rating.min.css" />
+    
     <!-- JS Support Libraries -->
-    <script
-      src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"
-      integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN"
-      crossorigin="anonymous"
-    ></script>
-    <script
-      type="text/javascript"
-      src="https://unpkg.com/papaparse@5.3.0/papaparse.min.js"
-    ></script>
+    <script type="text/javascript" src="https://cdn.datatables.net/v/bs5/jq-3.6.0/dt-1.13.1/b-2.3.3/b-html5-2.3.3/r-2.4.0/sc-2.0.7/datatables.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js" integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN" crossorigin="anonymous"></script>
+    <script type="text/javascript" src="https://unpkg.com/papaparse@5.3.0/papaparse.min.js"></script>
+    <script type="text/javascript" src="js\star-rating.js-main\dist\star-rating.min.js"></script>
 
     <!-- Custom JS -->
     <script type="text/javascript" src="./index.js"></script>
-    
-    <style>
-    table.dataTable>tbody>tr.excluded {
-      background-color: maroon;
-    }
-    </style>
-  </head>
 
-  <body>
+    <style>
+        table.dataTable>tbody>tr.excluded {
+            background-color: maroon;
+        }
+    </style>
+</head>
+
+<body>
     <!--[if lt IE 7]>
       <p class="browsehappy">
         You are using an <strong>outdated</strong> browser. Please
@@ -63,58 +42,50 @@
       </p>
     <![endif]-->
     <div class="container p-3 mt-3 border">
-      <h1>LibbyGraph - Bring your Libby exports to StoryGraph</h1>
-      <hr />
+        <h1>LibbyGraph - Bring your Libby exports to StoryGraph</h1>
+        <hr />
 
-      <div class="form-group">
-        <label for="csv-file">Select CSV File</label>
-        <input
-          id="csv-file"
-          class="form-control form-control-lg"
-          type="file"
-          accept=".csv"
-        />
-      </div>
-      <div id="csv-preview"></div>
-      <table
-        id="reading"
-        class="table table-condensed table-hover table-striped"
-        style="width: 100%"
-      >
-        <thead>
-          <tr>
-            <th>Last Activity</th>
-            <th>Cover</th>
-            <th>Book Id</th>
-            <th>Title</th>
-            <th>Author</th>
-            <th>Author l-f</th>
-            <th>Additional Authors</th>
-            <th>ISBN</th>
-            <th>ISBN13</th>
-            <th>My Rating</th>
-            <th>Average Rating</th>
-            <th>Publisher</th>
-            <th>Binding</th>
-            <th>Number of Pages</th>
-            <th>Year Published</th>
-            <th>Original Publication Year</th>
-            <th>Date Read</th>
-            <th>Date Added</th>
-            <th>Bookshelves</th>
-            <th>Bookshelves with positions</th>
-            <th>Exclusive Shelf</th>
-            <th>My Review</th>
-            <th>Spoiler</th>
-            <th>Private Notes</th>
-            <th>Read Count</th>
-            <th>Owned Copies</th>
-            <th>Include</th>
-            <th></th>
-          </tr>
-        </thead>
-        <tbody></tbody>
-      </table>
+        <div class="form-group">
+            <label for="csv-file">Select CSV File</label>
+            <input id="csv-file" class="form-control form-control-lg" type="file" accept=".csv" />
+        </div>
+        <div id="csv-preview"></div>
+        <table id="reading" class="table table-condensed table-hover table-striped" style="width: 100%">
+            <thead>
+                <tr>
+                    <th>Last Activity</th>
+                    <th>Cover</th>
+                    <th>Book Id</th>
+                    <th>Title</th>
+                    <th>Author</th>
+                    <th>Author l-f</th>
+                    <th>Additional Authors</th>
+                    <th>ISBN</th>
+                    <th>ISBN13</th>
+                    <th>My Rating</th>
+                    <th>Average Rating</th>
+                    <th>Publisher</th>
+                    <th>Binding</th>
+                    <th>Number of Pages</th>
+                    <th>Year Published</th>
+                    <th>Original Publication Year</th>
+                    <th>Date Read</th>
+                    <th>Date Added</th>
+                    <th>Bookshelves</th>
+                    <th>Bookshelves with positions</th>
+                    <th>Exclusive Shelf</th>
+                    <th>My Review</th>
+                    <th>Spoiler</th>
+                    <th>Private Notes</th>
+                    <th>Read Count</th>
+                    <th>Owned Copies</th>
+                    <th>Include</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody></tbody>
+        </table>
     </div>
-  </body>
+</body>
+
 </html>
