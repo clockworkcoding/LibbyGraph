@@ -46,6 +46,9 @@ function preview_csv(e) {
 function transformGrData(grTitles) {
     let sgTitles = [];
     grTitles.forEach(function (t, key) {
+        if(t[0].isbn == null){
+            return;
+        }
         t = t.sort((a, b) => Date.parse(a.timestamp) - Date.parse(b.timestamp));
         let lastActivity = formatDate(t[0].timestamp);
         //let dateAdded = new Date(t[t.length - 1].timestamp).toISOString().split('T')[0]
@@ -237,7 +240,8 @@ function initDataTable(content) {
                         '  <option value="read" ' + (data == "read" ? "selected" : " ") + ">read</option>" +
                         '  <option value="currently-reading" ' + (data == "currently-reading" ? "selected" : " ") + ">currently-reading</option>" +
                         '  <option value="did-not-finish"' + (data == "did-not-finish" ? "selected" : " ") + ">did-not-finish</option>" +
-                        "</select>"
+                        '</select>' +
+                        '<script>initStarRating();</script>'
                     );
                 },
             },
@@ -340,15 +344,9 @@ function initDataTable(content) {
             } else {
                 $(row).removeClass('excluded');
             }
-            initStarRating();
         },
         initComplete: function (settings, json) {
             let table = $("#reading").DataTable();
-
-            initStarRating();
-            $('#reading').on( 'page.dt', function () {
-                initStarRating();
-            } );
 
             $("#reading tbody").on("change", ".shelf", function () {
                 let row = table.row(this.parentNode);
@@ -432,8 +430,10 @@ function initDataTable(content) {
     });
 }
 
+
+let starRatingControl = null;
 function initStarRating(){
-    var starRatingControl = new StarRating('.rating',{
+    starRatingControl = new StarRating('.rating',{
         maxStars: 5,
         clearable: true,
         tooltip: false
