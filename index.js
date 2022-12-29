@@ -340,20 +340,15 @@ function initDataTable(content) {
             } else {
                 $(row).removeClass('excluded');
             }
-            var starRatingControl = new StarRating('.rating',{
-                maxStars: 5,
-                clearable: true,
-                tooltip: false
-            });
+            initStarRating();
         },
         initComplete: function (settings, json) {
             let table = $("#reading").DataTable();
 
-            var starRatingControl = new StarRating('.rating',{
-                maxStars: 5,
-                clearable: true,
-                tooltip: false
-            });
+            initStarRating();
+            $('#reading').on( 'page.dt', function () {
+                initStarRating();
+            } );
 
             $("#reading tbody").on("change", ".shelf", function () {
                 let row = table.row(this.parentNode);
@@ -434,6 +429,14 @@ function initDataTable(content) {
                 table.draw(false);
             });
         },
+    });
+}
+
+function initStarRating(){
+    var starRatingControl = new StarRating('.rating',{
+        maxStars: 5,
+        clearable: true,
+        tooltip: false
     });
 }
 
