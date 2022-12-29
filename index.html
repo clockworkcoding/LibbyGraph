@@ -98,7 +98,7 @@
         <p>This is an unofficial tool to more easily bring your Libby activity to StoryGraph since there is not yet an officialy supported method.
             <br/>LibbyGraph converts the Libby activity export into the same format as the Goodreads library export so that you can use StoryGraph's GoodReads import with your Libby reading.
             <p class="text-danger">Make sure you understand the risks of using StoryGraph's Goodreads import before using this tool!</p>
-            <br/>LibbyGraph works entirely within your browser, so your reading activity is not shared with anyone.
+            LibbyGraph works entirely within your browser, so your reading activity is not shared with anyone.
         </p>
         <h2>Directions</h2>
         <ol class="list-group list-group-numbered">
@@ -118,6 +118,15 @@
             </li>
             <li class="list-group-item d-flex justify-content-between align-items-start">
                 <div class="ms-2 me-auto">
+                <div class="fw-bold">Choose which books you want to import to StoryGraph</div>
+                    <p class="text-danger">StoryGraph will remove any previous reviews and reading information for books you import through this process, so make sure to exclude them.</p>
+                    To exclude books, deselect the check-box in the <em>include</em> column.
+                    <br/>The <em>Exclude all books below this</em> button at the end of each row can be useful if you've previously added books to StoryGraph.
+                    <br/>If you accidentally excluded too many books, you can use the <em>Include all books</em> button.
+                </div>
+            </li>
+            <li class="list-group-item d-flex justify-content-between align-items-start">
+                <div class="ms-2 me-auto">
                 <div class="fw-bold">Rate and update your books</div>
                     LibbyGraph will sort the shelf each book belongs to based on the last activity type:
                     <ul>
@@ -127,16 +136,6 @@
                     </ul>
                     You can update the shelf, rating, date read, read count and date added values.
                     <br/>StoryGraph only accepts whole number values for ratings when importing books, so if you want to use fractions of a star, you can leave the rating blank or set a temporary score and then update StoryGraph after the import completes.
-                </div>
-            </li>
-            
-            <li class="list-group-item d-flex justify-content-between align-items-start">
-                <div class="ms-2 me-auto">
-                <div class="fw-bold">Choose which books you want to import to StoryGraph</div>
-                    <p class="text-danger">StoryGraph will remove any previous reviews and reading information for books you import through this process, so make sure to exclude them.</p>
-                    <br/>To exclude books, deselect the check-box in the <em>include</em> column.
-                    <br/>The <em>Exclude all books below this</em> button at the end of each row can be useful if you've previously added books to StoryGraph.
-                    <br/>If you accidentally excluded too many books, you can use the <em>Include all books</em> button.
                 </div>
             </li>
             <li class="list-group-item d-flex justify-content-between align-items-start">
@@ -150,8 +149,8 @@
                 <div class="ms-2 me-auto">
                 <div class="fw-bold">Import your activity to StoryGraph</div>
                     Log into StoryGraph and navigate to the <em>Goodreads Import</em> portion of the Manage Account page.
-                    <p class="text-danger"></p>Read the instructions and guidelines on StoryGraph carefully.</p>
-                    <br/>Instead of exporting your Goodreads library, upload the <em>LibbyGraph.csv</em> file to StoryGraph
+                    <p class="text-danger">Read the instructions and guidelines on StoryGraph carefully.</p>
+                    Instead of exporting your Goodreads library, upload the <em>LibbyGraph.csv</em> file to StoryGraph
                 </div>
             </li>
             <li class="list-group-item d-flex justify-content-between align-items-start">
