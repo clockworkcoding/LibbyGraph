@@ -4,10 +4,6 @@ window.onload = function () {
         .addEventListener("change", preview_csv, false);
 
     $("#reading").hide();
-
-    $(".include").change(function () {
-        alert("oks");
-    });
 };
 
 function preview_csv(e) {
@@ -378,6 +374,7 @@ function initDataTable(content) {
                 data.myRating = $(this).data('rating');
                 row.data(data);
                 table.draw(false);
+                initStarRating();
             };
             $("#reading tbody").on("click", ".gl-star-rating--stars", starRatingFunction);
             $("#reading tbody").on("touchend", ".gl-star-rating--stars", starRatingFunction);
