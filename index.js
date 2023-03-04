@@ -331,6 +331,7 @@ function initDataTable(content) {
                     });
 
                     table.draw(false);
+                    initStarRating();
                 }
             }
         ],
@@ -385,6 +386,7 @@ function initDataTable(content) {
                 data.dateRead = $(this).val();
                 row.data(data);
                 table.draw(false);
+                initStarRating();
             });
             $("#reading tbody").on("change", ".dateAdded", function () {
                 let row = table.row(this.parentNode);
@@ -392,6 +394,7 @@ function initDataTable(content) {
                 data.dateAdded = $(this).val();
                 row.data(data);
                 table.draw(false);
+                initStarRating();
             });
             $("#reading tbody").on("change", ".readCount", function () {
                 let row = table.row(this.parentNode);
@@ -410,6 +413,7 @@ function initDataTable(content) {
                 row.data(data);
                 row.invalidate();
                 table.draw(false);
+                initStarRating();
             });
             $("#reading tbody").on("click", ".exclude", function () {
                 let rows = table.rows({ order: "applied" })[0];
@@ -422,6 +426,7 @@ function initDataTable(content) {
                     row.invalidate();
                 }
                 table.draw(false);
+                initStarRating();
             });
         },
     });
