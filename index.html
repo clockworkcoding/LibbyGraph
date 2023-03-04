@@ -14,13 +14,18 @@
     <meta name="description" content="convert the Libby activity csv to a format that StoryGraph can accept" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous" />
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous" />
     <link rel="stylesheet" type="text/css" href="js/star-rating/dist/star-rating.min.css" />
-    
-    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/bs5/jq-3.6.0/dt-1.13.1/b-2.3.3/b-html5-2.3.3/fc-4.2.1/datatables.min.css"/>
- 
-    <script type="text/javascript" src="https://cdn.datatables.net/v/bs5/jq-3.6.0/dt-1.13.1/b-2.3.3/b-html5-2.3.3/fc-4.2.1/datatables.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js" integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN" crossorigin="anonymous"></script>
+
+    <link rel="stylesheet" type="text/css"
+        href="https://cdn.datatables.net/v/bs5/jq-3.6.0/dt-1.13.1/b-2.3.3/b-html5-2.3.3/fc-4.2.1/datatables.min.css" />
+
+    <script type="text/javascript"
+        src="https://cdn.datatables.net/v/bs5/jq-3.6.0/dt-1.13.1/b-2.3.3/b-html5-2.3.3/fc-4.2.1/datatables.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN"
+        crossorigin="anonymous"></script>
     <script type="text/javascript" src="https://unpkg.com/papaparse@5.3.0/papaparse.min.js"></script>
     <script type="text/javascript" src="js/star-rating/dist/star-rating.min.js"></script>
 
@@ -31,22 +36,18 @@
         table.dataTable>tbody>tr.excluded {
             background-color: maroon;
         }
-        th>.dtfc-fixed-left{
+
+        th>.dtfc-fixed-left {
             background-color: #212529 !important;
         }
-        tr>.dtfc-fixed-left{
+
+        tr>.dtfc-fixed-left {
             background-color: #212529 !important;
         }
-    </style
+    </style>
 </head>
 
 <body>
-    <!--[if lt IE 7]>
-      <p class="browsehappy">
-        You are using an <strong>outdated</strong> browser. Please
-        <a href="#">upgrade your browser</a> to improve your experience.
-      </p>
-    <![endif]-->
     <div class="container p-1 mt-3 border">
         <h1>LibbyGraph - Bring your exported Libby activity to StoryGraph</h1>
         <hr />
@@ -93,77 +94,137 @@
         </table>
     </div>
     <div div class="container p-1 mt-3">
-        
+
         <h2>What is this?</h2>
-        <p>This is an unofficial tool to more easily bring your Libby activity to StoryGraph since there is not yet an officialy supported method.
-            <br/>LibbyGraph converts the Libby activity export into the same format as the Goodreads library export so that you can use StoryGraph's GoodReads import with your Libby reading.
-            <p class="text-danger">Make sure you understand the risks of using StoryGraph's Goodreads import before using this tool!</p>
-            LibbyGraph works entirely within your browser, so your reading activity is not shared with anyone.
+        <p>This is an unofficial tool to more easily bring your Libby activity to StoryGraph since there is not yet an
+            officialy supported method.
+            <br />LibbyGraph converts the Libby activity export into the same format as the Goodreads library export so
+            that you can use StoryGraph's GoodReads import with your Libby reading.
+        <p class="text-danger">Make sure you understand the risks of using StoryGraph's Goodreads import before using
+            this tool!</p>
+        LibbyGraph works entirely within your browser, so your reading activity is not shared with anyone.
         </p>
         <h2>Directions</h2>
         <ol class="list-group list-group-numbered">
             <li class="list-group-item d-flex justify-content-between align-items-start">
                 <div class="ms-2 me-auto">
-                <div class="fw-bold">Export Libby Activity</div>
-                    <a href="https://help.libbyapp.com/en-us/6207.htm">Follow the directions here</a> to export your activity from Libby.
-                    <br/> Make sure to select the <em>Spreadsheet (CSV)</em> format.
+                    <div class="fw-bold">Export Libby Activity</div>
+                    <a href="https://help.libbyapp.com/en-us/6207.htm">Follow the directions here</a> to export your
+                    activity from Libby.
+                    <br /> Make sure to select the <em>Spreadsheet (CSV)</em> format.
                 </div>
             </li>
             <li class="list-group-item d-flex justify-content-between align-items-start">
                 <div class="ms-2 me-auto">
-                <div class="fw-bold">Open the exported file with LibbyGraph</div>
-                    Press the <em>Browse</em> or <em>Choose File</em> button above and select the file you saved from Libby.
-                    <br/>It is probably named <em>libbytimeline-activities</em>.
+                    <div class="fw-bold">Open the exported file with LibbyGraph</div>
+                    Press the <em>Browse</em> or <em>Choose File</em> button above and select the file you saved from
+                    Libby.
+                    <br />It is probably named <em>libbytimeline-activities</em>.
                 </div>
             </li>
             <li class="list-group-item d-flex justify-content-between align-items-start">
                 <div class="ms-2 me-auto">
-                <div class="fw-bold">Choose which books you want to import to StoryGraph</div>
-                    <p class="text-danger">StoryGraph will remove any previous reviews and reading information for books you import through this process, so make sure to exclude them.</p>
+                    <div class="fw-bold">Choose which books you want to import to StoryGraph</div>
+                    <p class="text-danger">StoryGraph will remove any previous reviews and reading information for books
+                        you import through this process, so make sure to exclude them.</p>
                     To exclude books, deselect the check-box in the <em>include</em> column.
-                    <br/>The <em>Exclude all books below this</em> button at the end of each row can be useful if you've previously added books to StoryGraph.
-                    <br/>If you accidentally excluded too many books, you can use the <em>Include all books</em> button.
+                    <br />The <em>Exclude all books below this</em> button at the end of each row can be useful if
+                    you've previously added books to StoryGraph.
+                    <br />If you accidentally excluded too many books, you can use the <em>Include all books</em>
+                    button.
                 </div>
             </li>
             <li class="list-group-item d-flex justify-content-between align-items-start">
                 <div class="ms-2 me-auto">
-                <div class="fw-bold">Rate and update your books</div>
+                    <div class="fw-bold">Rate and update your books</div>
                     LibbyGraph will sort the shelf each book belongs to based on the last activity type:
                     <ul>
                         <li>Books that are borrowed are set to <em>currently-reading</em></li>
                         <li>Books that have been returned are set to <em>read</em></li>
-                        <li>All other books are set to <em>to-read</em></li>  
+                        <li>All other books are set to <em>to-read</em></li>
                     </ul>
                     You can update the shelf, rating, date read, read count and date added values.
-                    <br/>StoryGraph only accepts whole number values for ratings when importing books, so if you want to use fractions of a star, you can leave the rating blank or set a temporary score and then update StoryGraph after the import completes.
+                    <br />StoryGraph only accepts whole number values for ratings when importing books, so if you want
+                    to use fractions of a star, you can leave the rating blank or set a temporary score and then update
+                    StoryGraph after the import completes.
                 </div>
             </li>
             <li class="list-group-item d-flex justify-content-between align-items-start">
                 <div class="ms-2 me-auto">
-                <div class="fw-bold">Save your StoryGraph import file</div>
-                    When you are ready, press the <em>Download CSV for StoryGraph import</em> button to save the file you will import to StoryGraph.
-                    <br/>You should review the <em>LibbyGraph.csv</em> spreadsheet before moving on to ensure everything is correct.
+                    <div class="fw-bold">Save your StoryGraph import file</div>
+                    When you are ready, press the <em>Download CSV for StoryGraph import</em> button to save the file
+                    you will import to StoryGraph.
+                    <br />You should review the <em>LibbyGraph.csv</em> spreadsheet before moving on to ensure
+                    everything is correct.
                 </div>
             </li>
             <li class="list-group-item d-flex justify-content-between align-items-start">
                 <div class="ms-2 me-auto">
-                <div class="fw-bold">Import your activity to StoryGraph</div>
+                    <div class="fw-bold">Import your activity to StoryGraph</div>
                     Log into StoryGraph and navigate to the Manage Account page.
-                    Scroll to the <em>Goodreads Import</em> portion of the page. 
+                    Scroll to the <em>Goodreads Import</em> portion of the page.
                     <p class="text-danger">Read the instructions and guidelines on StoryGraph carefully.</p>
                     Instead of exporting your Goodreads library, upload the <em>LibbyGraph.csv</em> file to StoryGraph.
                 </div>
             </li>
             <li class="list-group-item d-flex justify-content-between align-items-start">
                 <div class="ms-2 me-auto">
-                <div class="fw-bold">Review the books added to StoryGraph</div>
+                    <div class="fw-bold">Review the books added to StoryGraph</div>
                     After your import has completed, you can update ratings and reviews on StoryGraph.
-                    <br/>Library editions of books used in Libby may have missing information on StoryGraph. This can often be fixed using the <em>Browse editions</em> link on the book's StoryGraph page and then selecting <em>Switch to this edition</em> on the correct one.
+                    <br />Library editions of books used in Libby may have missing information on StoryGraph. This can
+                    often be fixed using the <em>Browse editions</em> link on the book's StoryGraph page and then
+                    selecting <em>Switch to this edition</em> on the correct one.
                 </div>
             </li>
 
         </ol>
     </div>
+
+    <div div class="container p-1 mt-3">
+    </div>
 </body>
 
+<footer class="bg-dark text-center text-white">
+    <div class="container p-3">
+
+        <section class="">
+            <div class="row">
+                <div class="col-lg-3 col-md-6 mb-4 mb-md-0">
+                    <h5 class="text-uppercase"></h5>
+
+                    <ul class="list-unstyled mb-0">
+                        <li>
+                            <a href="privacy.html" class="text-white">Privacy Policy</a>
+                        </li>
+                        <li>
+                            <a href="terms.html" class="text-white">Terms and Conditions</a>
+                        </li>
+                    </ul>
+                </div>
+
+                <div class="col-lg-3 col-md-6 mb-4 mb-md-0">
+                    <h5 class="text-uppercase"></h5>
+
+                    <ul class="list-unstyled mb-0">
+                        <li>
+                            <a href="https://github.com/clockworkcoding/LibbyGraph" class="text-white">Github</a>
+                        </li>
+                        <li>
+                            <a href="mailto:max@libbygraph.com" class="text-white">Contact</a>
+                        </li>
+                    </ul>
+                </div>
+
+                <div class="col-lg-3 col-md-6 mb-4 mb-md-0">
+
+                    <div>
+                        <script type='text/javascript' src='https://storage.ko-fi.com/cdn/widget/Widget_2.js'></script>
+                        <script
+                            type='text/javascript'>kofiwidget2.init('Support Me on Ko-fi', '#29abe0', 'C0C8I299M'); kofiwidget2.draw();</script>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+</footer>
 </html>
