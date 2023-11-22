@@ -108,13 +108,38 @@ function isValidDate(d) {
     return d instanceof Date && !isNaN(d);
 }
 
+function starRatingFunction() {
+    let table = $("#reading").DataTable();
+    let row = table.row($(this).parent().closest('tr.even,tr.odd'));
+    let data = row.data();
+    if(data == undefined){
+        return;
+    }
+    let stars = $(this).siblings(".gl-star-rating--stars")[0];
+    let selectedRating = stars.dataset.rating;
+    if(selectedRating == 0){
+        selectedRating = stars.dataset.rating = null;
+    }
+    if(data.myRating == selectedRating){
+        return;
+    }
+    data.myRating = selectedRating;
+    row.data(data);
+    table.draw(false);
+    initStarRating();
+};
+
+function updateRatings() {
+    $("#reading .gl-star-rating--stars").each(starRatingFunction);
+}
+
 function initDataTable(content) {
     $("#reading").show();
     $("#reading").dataTable({
         data: content,
         order: [[26, "desc"]],
         scrollY: window.innerHeight / 2 + "px",
-        scrollX: true,    
+        scrollX: true,
         fixedColumns: true,
         dom: "Bfrtip",
         columns: [
@@ -357,29 +382,8 @@ function initDataTable(content) {
                 }
                 row.data(data);
                 table.draw(false);
-            });
-            $("#reading tbody").on("change", ".rating", function () {
-                let row = table.row(this.parentNode);
-                let data = row.data();
-                data.myRating = $(this).val();
-                row.data(data);
-                table.draw(false);
-            });
-            var starRatingFunction = function () {
-                let row = table.row($(this).parent().closest('tr.even,tr.odd'));
-                let data = row.data();
-                let selectedRating = $(this).data('rating');
-                if(data.myRating == selectedRating){
-                    return;
-                }
-                data.myRating = $(this).data('rating');
-                row.data(data);
-                table.draw(false);
                 initStarRating();
-            };
-            $("#reading tbody").on("click", ".gl-star-rating--stars", starRatingFunction);
-            $("#reading tbody").on("touchend", ".gl-star-rating--stars", starRatingFunction);
-            $("#reading tbody").on("swipe", ".gl-star-rating--stars", starRatingFunction);
+            });
             $("#reading tbody").on("change", ".dateRead", function () {
                 let row = table.row(this.parentNode);
                 let data = formatDate(row.data());
@@ -405,6 +409,7 @@ function initDataTable(content) {
                     $(this).val(0);
                 }
                 row.data(data);
+                initStarRating();
             });
             $("#reading tbody").on("change", ".include", function () {
                 let row = table.row(this.parentNode);
@@ -440,6 +445,7 @@ function initStarRating(){
         clearable: true,
         tooltip: false
     });
+    $(".rating").on("change", starRatingFunction);
 }
 
 function formatDate(date) {
