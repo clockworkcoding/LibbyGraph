@@ -53,6 +53,8 @@
         <hr />
 
         <div class="form-group">
+            <label for="set-read">Set all borrowed books to "Read"</label>
+            <input id="set-read" type="checkbox" /><br/>
             <label for="csv-file">Select Libby Activity CSV File</label>
             <input id="csv-file" class="form-control form-control-lg" type="file" accept=".csv" />
         </div>
@@ -143,7 +145,8 @@
                         <li>Books that have been returned are set to <em>read</em></li>
                         <li>All other books are set to <em>to-read</em></li>
                     </ul>
-                    You can update the shelf, rating, date read, read count and date added values.
+                    <br />You can also select the "Set all borrowed books to 'Read'" checkbox to change this behavior. This is useful if you've recently synced your Libby to a new device or only exported the loans activity. 
+                    <br />You can update the shelf, rating, date read, read count and date added values.
                     <br />StoryGraph only accepts whole number values for ratings when importing books, so if you want
                     to use fractions of a star, you can leave the rating blank or set a temporary score and then update
                     StoryGraph after the import completes.

@@ -40,6 +40,7 @@ function preview_csv(e) {
 }
 
 function transformGrData(grTitles) {
+    let setRead = $("#set-read").is(":checked");
     let sgTitles = [];
     grTitles.forEach(function (t, key) {
         if(t[0].isbn == null){
@@ -63,8 +64,12 @@ function transformGrData(grTitles) {
             shelf = "read";
             readCount = 1;
             dateRead = formatDate(returned.timestamp);
-        } else if (borrowed != null) {
+        } else if (borrowed != null && !setRead) {
             shelf = "currently-reading";
+        } else if (borrowed != null && setRead) {
+            shelf = "read";
+            readCount = 1;
+            dateRead = formatDate(borrowed.timestamp);
         }
         let minDate = Math.min(
             ...t.filter((x) => x.timestamp != "").map((a) => Date.parse(a.timestamp))
